@@ -1,0 +1,7 @@
+configs:
+  params:
+    server.insecure: true
+    server.rootpath: "/argocd"
+  secret:
+    # https://bcrypt-generator.com/
+    argocdServerAdminPassword: $2a$12$bM6dGNa2VbQJK/xC8i4ag.2bKfPXJGqJibbWt4.vO7KX9vkjXl/jG
