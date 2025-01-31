@@ -27,7 +27,7 @@ resource "helm_release" "minio_tenant" {
 resource "kubernetes_secret" "minio_creds" {
   metadata {
     name = "minio-creds"
-    namespace = kubernetes_namespace.argo_workflows.metadata.0.name
+    namespace = helm_release.argo_workflows.namespace
   }
 
   data = {
@@ -36,4 +36,36 @@ resource "kubernetes_secret" "minio_creds" {
   }
 
   type = "Opaque"
+}
+
+data "kubernetes_config_map" "argo_workflows_workflow_controller_configmap" {
+  metadata {
+    name = "argo-workflows-workflow-controller-configmap"
+    namespace = helm_release.argo_workflows.namespace
+  }
+}
+
+resource "kubernetes_config_map_v1_data" "argo_workflows_workflow_controller_configmap" {
+  force = true
+
+  metadata {
+    name      = "argo-workflows-workflow-controller-configmap"
+    namespace = helm_release.argo_workflows.namespace
+  }
+
+  data = {
+    artifactRepository = <<EOF
+archiveLogs: true
+s3:
+  bucket: workflow-artifacts
+  endpoint: myminio-hl.block-storage.svc.cluster.local:9000
+  insecure: true
+  accessKeySecret:
+    name: minio-creds
+    key: access-key
+  secretKeySecret:
+    name: minio-creds
+    key: secret-key
+EOF
+  }
 }
