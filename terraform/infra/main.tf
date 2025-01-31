@@ -15,3 +15,15 @@ resource "kubernetes_namespace" "argo_workflows" {
     name = "argo-workflows"
   }
 }
+
+resource "kubernetes_namespace" "minio-operator" {
+  metadata {
+    name = "minio-operator"
+  }
+}
+
+resource "kubernetes_namespace" "tenant" {
+  metadata {
+    name = "block-storage"
+  }
+}
