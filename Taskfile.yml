@@ -11,17 +11,17 @@ tasks:
     vars:
       NUM_WORKER_NODES: 3
 
-  destroy-cluster:
+  delete-cluster:
     cmds:
       - k3d cluster delete {{.CLUSTER_NAME}}
 
-  install-tooling:
+  tf-apply:
     dir: ./terraform/infra
     cmds:
       - terraform init
       - terraform apply --auto-approve
 
-  uninstall-tooling:
+  tf-destroy:
     dir: ./terraform/infra
     cmds:
       - terraform destroy --auto-approve
@@ -29,9 +29,9 @@ tasks:
   up:
     cmds:
       - task: create-cluster
-      - task: install-tooling
+      - task: tf-apply
 
   down:
     cmds:
-      - task: uninstall-tooling
-      - task: destroy-cluster
+      - task: tf-destroy
+      - task: delete-cluster
