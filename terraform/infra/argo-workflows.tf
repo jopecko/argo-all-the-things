@@ -5,7 +5,7 @@ resource "helm_release" "argo_workflows" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-workflows"
   version          = "0.45.4" # v3.6.2
-  namespace        = "argo-workflows"
+  namespace        = kubernetes_namespace.argo_workflows.metadata[0].name
 }
 
 data "kubernetes_service" "argo_workflows_server" {

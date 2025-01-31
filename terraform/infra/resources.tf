@@ -34,7 +34,7 @@ resource "kubernetes_ingress_v1" "argo_workflows_ingress" {
   depends_on = [helm_release.argo_workflows]
   metadata {
     name = "argo-workflows-ingress"
-    namespace = "argo-workflows"
+    namespace = helm_release.argo_workflows.namespace
     labels = {
       app = "argo-workflows"
     }
