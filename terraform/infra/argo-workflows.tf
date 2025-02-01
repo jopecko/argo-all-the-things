@@ -22,7 +22,7 @@ resource "kubernetes_role_v1" "argooperator_role" {
   }
 
   rule {
-    api_groups = ["argoproj.io", "", "batch"]
+    api_groups = ["", "apps", "argoproj.io", "batch"]
     resources  = ["*"]
     verbs      = ["create", "delete", "get", "list", "patch"]
   }
